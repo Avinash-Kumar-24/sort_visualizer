@@ -8,7 +8,7 @@ import { insertionSort } from './sortingAlgorithms/insertionSort';
 import { selectionSort } from './sortingAlgorithms/selectionSort'; 
 
 const SortingVisualizer = () => {
-  const [arraySize, setArraySize] = useState(20); // Keep arraySize in state
+  const [arraySize, setArraySize] = useState(20);
   const [array, setArray] = useState(Array.from({ length: arraySize }, () => Math.floor(Math.random() * 780)));
   const [isSorting, setIsSorting] = useState(false);
   const [swappingIndices, setSwappingIndices] = useState([]);
@@ -21,7 +21,7 @@ const SortingVisualizer = () => {
     const calculateContainerHeight = () => {
       const headerHeight = 50;
       const controlsHeight = 100;
-      const availableHeight = window.innerHeight - headerHeight - controlsHeight - 20;
+      const availableHeight = window.innerHeight - headerHeight - controlsHeight - 40; // Adjusted for bottom margin
       setBarContainerHeight(availableHeight);
     };
 
@@ -34,13 +34,11 @@ const SortingVisualizer = () => {
   }, []);
 
   useEffect(() => {
-    generateRandomArray(); // Generate a random array whenever arraySize changes
+    generateRandomArray();
   }, [arraySize]);
 
   const generateRandomArray = () => {
-    const newArray = Array.from({ length: arraySize }, () =>
-      Math.floor(Math.random() * 780) // Use the current array size
-    );
+    const newArray = Array.from({ length: arraySize }, () => Math.floor(Math.random() * 780));
     setArray(newArray);
     setSwappingIndices([]);
     setSortedIndices([]);
@@ -49,11 +47,25 @@ const SortingVisualizer = () => {
   const handleSort = async () => {
     setIsSorting(true);
     setSortedIndices([]);
-    if (selectedSort === 'bubble') await bubbleSort(array, setArray, setSwappingIndices, setSortedIndices, speed);
-    else if (selectedSort === 'merge') await mergeSort(array, setArray, setSwappingIndices, setSortedIndices, speed);
-    else if (selectedSort === 'quick') await quickSort(array, setArray, setSwappingIndices, setSortedIndices, speed);
-    else if (selectedSort === 'insertion') await insertionSort(array, setArray, setSwappingIndices, setSortedIndices, speed);
-    else if (selectedSort === 'selection') await selectionSort(array, setArray, setSwappingIndices, setSortedIndices, speed);
+    switch (selectedSort) {
+      case 'bubble':
+        await bubbleSort(array, setArray, setSwappingIndices, setSortedIndices, speed);
+        break;
+      case 'merge':
+        await mergeSort(array, setArray, setSwappingIndices, setSortedIndices, speed);
+        break;
+      case 'quick':
+        await quickSort(array, setArray, setSwappingIndices, setSortedIndices, speed);
+        break;
+      case 'insertion':
+        await insertionSort(array, setArray, setSwappingIndices, setSortedIndices, speed);
+        break;
+      case 'selection':
+        await selectionSort(array, setArray, setSwappingIndices, setSortedIndices, speed);
+        break;
+      default:
+        break;
+    }
     setIsSorting(false);
   };
 
@@ -111,14 +123,12 @@ const SortingVisualizer = () => {
               className="array-bar"
               style={{
                 height: `${value}px`,
-                width: `${100 / arraySize}%`, // Responsive width based on current array size
+                width: `${100 / arraySize}%`,
                 backgroundColor,
               }}
             >
               <span>{value}</span>
-              {swappingIndices.includes(index) && (
-                <div className="working-line"></div>
-              )}
+              {swappingIndices.includes(index) && <div className="working-line"></div>}
             </div>
           );
         })}

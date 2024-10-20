@@ -1,92 +1,59 @@
-/* src/SortingVisualizer.css */
-
 .visualizer-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100vh; /* Full viewport height */
-    background-color: #e0e0e0; /* Light gray background for the main container */
-  }
-  
-  .sorting-visualizer {
-    width: 80%; /* Width of the sorting visualizer */
-    margin: 20px 0; /* Space around the visualizer */
-    padding: 20px; /* Padding inside the visualizer */
-    background-color: #007bff; /* Blue background for the sorting visualizer */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-    color: white; /* Text color */
-    text-align: center; /* Center align text */
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 20px; /* Space at the bottom */
+}
+
+.controls-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px; /* Space between controls and the array */
+}
+
+button {
+  background-color: #007bff; /* Primary button color */
+  color: white; /* Text color */
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin: 0 10px; /* Space between buttons */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth color transition */
+}
+
+button:disabled {
+  background-color: #ccc; /* Gray color for disabled buttons */
+  cursor: not-allowed; /* Change cursor for disabled state */
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.array-container {
+  display: flex;
+  align-items: flex-end; /* Align bars at the bottom */
+  width: 100%; /* Full width for responsiveness */
+}
+
+.array-bar {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Align text to the bottom of the bar */
+  margin: 0 1px; /* Space between bars */
+  transition: height 0.2s ease; /* Smooth height transition */
+}
+
+@media (max-width: 600px) {
   .controls-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column; /* Stack controls vertically on small screens */
     align-items: center;
-    margin: 20px 0; /* Space between controls and visualizer */
   }
-  
-  .controls-container button,
-  .controls-container select,
-  .controls-container input[type="range"] {
-    background-color: #0056b3; /* Darker blue for buttons */
-    color: white; /* Text color */
-    border: none; /* Remove default border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px 15px; /* Padding inside the buttons */
-    margin: 0 5px; /* Space between controls */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s; /* Smooth background color transition */
-  }
-  
-  .controls-container button:hover {
-    background-color: #004494; /* Even darker blue on hover */
-  }
-  
-  .controls-container input[type="range"] {
-    width: 150px; /* Set width for the range inputs */
-  }
-  
-  /* Style for the array container */
-  .array-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    width: 80%; /* Use a percentage for flexibility */
-    margin: auto; /* Center the container */
-    border: 1px solid #ccc; /* Optional: Add a border for clarity */
-    padding: 10px 0; /* Space above and below the bars */
-    overflow: hidden; /* Prevent bars from overflowing */
-    background-color: #ffffff; /* White background for the bar container */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  }
-  
+
   .array-bar {
-    margin: 0 2px; /* Space between bars */
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    color: white; /* Text color inside the bars */
-    font-weight: bold;
-    position: relative; /* Needed for absolute positioning of the line */
-    transition: background-color 0.3s; /* Smooth background color transition */
+    margin: 0; /* Remove margin between bars on small screens */
   }
-  
-  .array-bar span {
-    position: absolute; /* Position number inside the bar */
-    bottom: 5px; /* Adjust as needed */
-    font-size: 0.8em; /* Adjust font size */
-  }
-  
-  .working-line {
-    position: absolute;
-    top: 0; /* Align to the top of the bar */
-    left: 0;
-    width: 100%;
-    height: 100%; /* Full height of the bar */
-    background-color: rgba(255, 0, 0, 0.5); /* Semi-transparent red for visibility */
-    z-index: 1; /* Make sure it's on top of the bar */
-  }
-  
+}
