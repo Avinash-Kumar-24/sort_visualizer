@@ -4,6 +4,7 @@
   align-items: center;
   padding: 20px;
   margin-bottom: 20px; /* Space at the bottom */
+  height: 100vh; /* Full viewport height */
 }
 
 .controls-container {
@@ -48,6 +49,11 @@ button:hover:not(:disabled) {
 }
 
 @media (max-width: 600px) {
+  .visualizer-container {
+    justify-content: center; /* Center content vertically */
+    margin-bottom: 40px; /* Increased space at the bottom on small screens */
+  }
+
   .controls-container {
     flex-direction: column; /* Stack controls vertically on small screens */
     align-items: center;
