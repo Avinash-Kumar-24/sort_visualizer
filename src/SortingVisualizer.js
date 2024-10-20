@@ -5,23 +5,23 @@ import { bubbleSort } from './sortingAlgorithms/bubbleSort';
 import { mergeSort } from './sortingAlgorithms/mergeSort';
 import { quickSort } from './sortingAlgorithms/quickSort';
 import { insertionSort } from './sortingAlgorithms/insertionSort';
+import { selectionSort } from './sortingAlgorithms/selectionSort'; 
 
 const SortingVisualizer = () => {
-  const [array, setArray] = useState([]);
+  const [arraySize, setArraySize] = useState(20); // Keep arraySize in state
+  const [array, setArray] = useState(Array.from({ length: arraySize }, () => Math.floor(Math.random() * 780)));
   const [isSorting, setIsSorting] = useState(false);
   const [swappingIndices, setSwappingIndices] = useState([]);
   const [sortedIndices, setSortedIndices] = useState([]);
   const [selectedSort, setSelectedSort] = useState('bubble');
-  const [arraySize, setArraySize] = useState(20);
   const [speed, setSpeed] = useState(100);
   const [barContainerHeight, setBarContainerHeight] = useState(0);
 
   useEffect(() => {
-    // Calculate the height of the bar container based on screen size
     const calculateContainerHeight = () => {
-      const headerHeight = 50; // Estimated height for the header
-      const controlsHeight = 100; // Estimated height for the controls
-      const availableHeight = window.innerHeight - headerHeight - controlsHeight - 20; // 20 for margins
+      const headerHeight = 50;
+      const controlsHeight = 100;
+      const availableHeight = window.innerHeight - headerHeight - controlsHeight - 20;
       setBarContainerHeight(availableHeight);
     };
 
@@ -33,9 +33,13 @@ const SortingVisualizer = () => {
     };
   }, []);
 
+  useEffect(() => {
+    generateRandomArray(); // Generate a random array whenever arraySize changes
+  }, [arraySize]);
+
   const generateRandomArray = () => {
     const newArray = Array.from({ length: arraySize }, () =>
-      Math.floor(Math.random() * barContainerHeight)
+      Math.floor(Math.random() * 780) // Use the current array size
     );
     setArray(newArray);
     setSwappingIndices([]);
@@ -49,6 +53,7 @@ const SortingVisualizer = () => {
     else if (selectedSort === 'merge') await mergeSort(array, setArray, setSwappingIndices, setSortedIndices, speed);
     else if (selectedSort === 'quick') await quickSort(array, setArray, setSwappingIndices, setSortedIndices, speed);
     else if (selectedSort === 'insertion') await insertionSort(array, setArray, setSwappingIndices, setSortedIndices, speed);
+    else if (selectedSort === 'selection') await selectionSort(array, setArray, setSwappingIndices, setSortedIndices, speed);
     setIsSorting(false);
   };
 
@@ -64,7 +69,7 @@ const SortingVisualizer = () => {
           min="5"
           max="100"
           value={arraySize}
-          onChange={(e) => setArraySize(e.target.value)}
+          onChange={(e) => setArraySize(Number(e.target.value))}
           disabled={isSorting}
         />
         <span>Array Size: {arraySize}</span>
@@ -77,6 +82,7 @@ const SortingVisualizer = () => {
           <option value="merge">Merge Sort</option>
           <option value="quick">Quick Sort</option>
           <option value="insertion">Insertion Sort</option>
+          <option value="selection">Selection Sort</option>
         </select>
         <button onClick={handleSort} disabled={isSorting}>
           Sort
@@ -86,7 +92,7 @@ const SortingVisualizer = () => {
           min="10"
           max="1000"
           value={speed}
-          onChange={(e) => setSpeed(e.target.value)}
+          onChange={(e) => setSpeed(Number(e.target.value))}
           disabled={isSorting}
         />
         <span>Speed: {speed} ms</span>
@@ -105,8 +111,8 @@ const SortingVisualizer = () => {
               className="array-bar"
               style={{
                 height: `${value}px`,
-                width: `${100 / arraySize}%`, // Dynamic width based on array size
-                backgroundColor, // Apply dynamic background color
+                width: `${100 / arraySize}%`, // Responsive width based on current array size
+                backgroundColor,
               }}
             >
               <span>{value}</span>
